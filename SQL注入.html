@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1. 判断SQL注入点1.1 判断是否存在sql注入漏洞url形式:http:&#x2F;&#x2F;xxx.xxx.xxx&#x2F;abcd.php?id&#x3D;xx，对sql注入的判断主要又两个方面：  判断该带参数的 Url 是否存在 Sql 注入？ 如果存在 Sql 注入，那么属于哪种 Sql 注入？  最为经典的单引号判断法： 在参数后面加上单引号,比如: http:&#x2F;&#x2F;xxx&#x2F;abc.php?id&#x3D;1&#39; 页面返">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/SQL%E6%B3%A8%E5%85%A5.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. 判断SQL注入点1.1 判断是否存在sql注入漏洞url形式:http:&#x2F;&#x2F;xxx.xxx.xxx&#x2F;abcd.php?id&#x3D;xx，对sql注入的判断主要又两个方面：  判断该带参数的 Url 是否存在 Sql 注入？ 如果存在 Sql 注入，那么属于哪种 Sql 注入？  最为经典的单引号判断法： 在参数后面加上单引号,比如: http:&#x2F;&#x2F;xxx&#x2F;abc.php?id&#x3D;1&#39; 页面返">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-10-05T08:29:06.458Z">
+<meta property="article:modified_time" content="2021-10-05T08:29:06.437Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/SQL%E6%B3%A8%E5%85%A5.html" class="article-date">
+  <time class="dt-published" datetime="2021-10-05T08:29:06.458Z" itemprop="datePublished">2021-10-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-判断SQL注入点"><a href="#1-判断SQL注入点" class="headerlink" title="1. 判断SQL注入点"></a>1. 判断SQL注入点</h1><h2 id="1-1-判断是否存在sql注入漏洞"><a href="#1-1-判断是否存在sql注入漏洞" class="headerlink" title="1.1 判断是否存在sql注入漏洞"></a>1.1 判断是否存在sql注入漏洞</h2><p>url形式:<a target="_blank" rel="noopener" href="http://xxx.xxx.xxx/abcd.php?id=xx%EF%BC%8C%E5%AF%B9sql%E6%B3%A8%E5%85%A5%E7%9A%84%E5%88%A4%E6%96%AD%E4%B8%BB%E8%A6%81%E5%8F%88%E4%B8%A4%E4%B8%AA%E6%96%B9%E9%9D%A2%EF%BC%9A">http://xxx.xxx.xxx/abcd.php?id=xx，对sql注入的判断主要又两个方面：</a></p>
+<ul>
+<li>判断该带参数的 Url 是否存在 Sql 注入？</li>
+<li>如果存在 Sql 注入，那么属于哪种 Sql 注入？</li>
+</ul>
+<p>最为经典的单引号判断法： 在参数后面加上单引号,比如:</p>
+<p><a target="_blank" rel="noopener" href="http://xxx/abc.php?id=1&#39;">http://xxx/abc.php?id=1&#39;</a></p>
+<p>页面返回错误存在。未报错也可能存在。</p>
+<h2 id="1-2-判断sql注入漏洞的类型"><a href="#1-2-判断sql注入漏洞的类型" class="headerlink" title="1.2 判断sql注入漏洞的类型"></a>1.2 判断sql注入漏洞的类型</h2><p>两种类型：</p>
+<ol>
+<li>  数字型</li>
+<li>  字符型</li>
+</ol>
+<h3 id="1-数字类型判断"><a href="#1-数字类型判断" class="headerlink" title="1.数字类型判断"></a>1.数字类型判断</h3><p>当输入的参 x 为整型时，通常 abc.php 中 Sql 语句类型大致如下： select * from &lt;表名&gt; where id = x 这种类型可以使用经典的 and 1=1 和 and 1=2 来判断：</p>
+<p> Url 地址中输入 <a target="_blank" rel="noopener" href="http://xxx/abc.php?id=">http://xxx/abc.php?id=</a> x and 1=1 页面依旧运行正常，继续进行下一步。<br> Url 地址中继续输入 <a target="_blank" rel="noopener" href="http://xxx/abc.php?id=">http://xxx/abc.php?id=</a> x and 1=2 页面运行错误，则说明此 Sql 注入为数字型注入。<br> 原因如下： 当输入 and 1=1时，后台执行 Sql 语句：<br>select *from &lt;表名&gt;where id =x and 1=1</p>
+<p>没有语法错误且逻辑判断为正确，所以返回正常。</p>
+<p>当输入 and 1=2时，后台执行 Sql 语句：</p>
+<p>select *from &lt;表名&gt;where id =x and 1=2</p>
+<p>返回错误</p>
+<h3 id="2-字符型判断"><a href="#2-字符型判断" class="headerlink" title="2. 字符型判断"></a>2. 字符型判断</h3><p> 当输入的参 x 为字符型时，通常 abc.php 中 SQL 语句类型大致如下： select * from &lt;表名&gt; where id = ‘x’ 这种类型我们同样可以使用 and ‘1’=’1 和 and ‘1’=’2来判断：</p>
+<p> Url 地址中输入 <a target="_blank" rel="noopener" href="http://xxx/abc.php?id=">http://xxx/abc.php?id=</a> x’ and ‘1’=’1 页面运行正常，继续进行下一步。<br> Url 地址中继续输入 <a target="_blank" rel="noopener" href="http://xxx/abc.php?id=">http://xxx/abc.php?id=</a> x’ and ‘1’=’2 页面运行错误，则说明此 Sql 注入为字符型注入。</p>
+<p> 原因如下： 当输入 and ‘1’=’1时，后台执行 Sql 语句：<br>select *from &lt;表名&gt;where id =’x ‘and ‘1’=’1‘</p>
+<p> 语法正确，逻辑判断正确，所以返回正确。</p>
+<p> 当输入 and ‘1’=’2时，后台执行 Sql 语句：</p>
+<p>elect *from &lt;表名&gt;where id =’x ‘and ‘1’=’2‘ 返回错误</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/SQL%E6%B3%A8%E5%85%A5.html" data-id="ckvnlm9nh00014kv4afmzd20r" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/03/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
